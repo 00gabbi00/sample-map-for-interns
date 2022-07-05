@@ -1,6 +1,6 @@
 # sample maps for interns
 
-# you can build your own apps using this template/sample
+you can build your own apps using this template/sample
 
 # instructions
 # for server folder:
