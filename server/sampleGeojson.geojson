@@ -1,0 +1,30 @@
+[
+  {
+    "type": "Feature",
+    "properties": {
+      "name": "kung ano man",
+      "area": "bahala kayo"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [long, lat],
+        [long, lat]
+      ]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "name": "kung ano man",
+      "area": "bahala kayo"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [long, lat],
+        [long, lat]
+      ]
+    }
+  }
+]
