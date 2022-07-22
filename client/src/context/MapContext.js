@@ -10,8 +10,15 @@ const MapContextProvider = (props) => {
 
   const [page, setPage] = useState(0)
 
+  const [shapes, setShapes] = useState()
+
+  const [view, setView] = useState()
+
+  const [color, setColor] = useState('')
+
   return (
-    <MapContext.Provider value={{ bounds, setBounds, size, setSize, page, setPage }}>
+    <MapContext.Provider value={{ bounds, setBounds, size, setSize, page, setPage,
+                                  shapes, setShapes, view, setView, color, setColor }}>
       {props.children}
     </MapContext.Provider>
   )

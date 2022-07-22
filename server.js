@@ -22,7 +22,7 @@ app.use(cors()); // it enables all cors requests
 app.use(methodOverride('_method'));
 
 //MongoDB connection string 
-const uri = [mongoDBstring]
+const uri = "mongodb+srv://pamucchi:gasi@cluster0.afxrl.mongodb.net/interns?retryWrites=true&w=majority"
 
 mongoose.connect(process.env.MONGODB_URI || uri, { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => console.log(error));
 
@@ -39,11 +39,13 @@ connection.once('open', () => {
   //import routes
   //format:
   //const [routerName] = require('path of route file')
+  const polygonRouter = require('./routes/polygons')
 
 
   //insert routes here
   //format:
   //app.use('/[routename]', [routerName])
+  app.use('/api/shapes', polygonRouter)
 
 
   app.use(express.static(path.join(__dirname, 'client/build')));

@@ -1,5 +1,6 @@
 import React, {useRef, useEffect, useContext} from 'react';
 import L from 'leaflet';
+import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.js'
 import 'leaflet-draw/dist/leaflet.draw.css'
@@ -8,7 +9,8 @@ import { MapContext } from '../../context/MapContext';
 
 export default function Map () {
 
-  const {setBounds, setSize, setPage} = useContext(MapContext)
+  const {setBounds, setSize, setPage, view, setShapes, color} = useContext(MapContext)
+
 
   var map = useRef(null);
   var MapTiler = L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=MvSightfsTCsiOP8lkG3', {
@@ -75,6 +77,74 @@ export default function Map () {
     } 
 
   }, [])
+
+  useEffect(()=> {
+    const fetchData = async(i) => {
+      const shapes = await axios(`/api/shapes/${i}`)
+
+      setShapes(shapes.data)
+      loadShapes(shapes.data)
+    }
+
+    if(view){
+      map.current.eachLayer(function(layer) {
+        if(layer instanceof L.Polygon){
+          map.current.removeLayer(layer)
+        }
+      })
+      fetchData(view)
+    }
+
+  }, [view])
+
+  // var layers;
+  var layerGroup = new L.FeatureGroup()
+
+
+  const loadShapes = (x, i) => {
+    // layers = layers.concat(x)
+    // console.log(layers, x)
+
+    var json;
+    if (x.length > 0){
+      // eslint-disable-next-line array-callback-return
+      x.map((data) => {
+        if ('properties' in data){
+          json = data.properties[0][0]          
+        }
+
+        const updated_json_len = Object.keys(json).length
+        var counter = 0
+        const table = []
+        for (var i in json) {
+          if (counter === 0) {
+            table.push(`<tr ><th class="header">ATTRIBUTE NAME</th><th class="header">VALUE</th></tr>`)
+          }
+
+          counter += 1
+          table.push(`<tr><th>${i}</th><td>${json[i]}</td></tr>`)
+          if (counter === updated_json_len) {
+            var popup = L.popup({maxHeight:500, maxWidth:700}).setContent(`<table>${table}</table>`.replace(/,/g, ''))
+          }
+              // var popup = L.popup().setContent(`<table><tr><td>${i}</td><td>${updated_json[i]}</td></tr></table>`)
+        }
+
+        var poly = new L.geoJSON(data, {
+          style: {
+            "color": color,
+            "weight": 5,
+            "opacity": 0.65
+          },
+        })
+        .bindPopup(popup)
+        layerGroup.addLayer(poly)
+
+      })
+      layerGroup.addTo(map.current)
+
+    }
+  }
+
 
   return(
     <div id="map" style={{width: '100%', height: '100%'}}/>

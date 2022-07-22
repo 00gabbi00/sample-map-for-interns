@@ -4,7 +4,7 @@ import { MapContext } from '../../context/MapContext'
 
 export default function Dashboard() {
 
-  const {bounds, size, page, setPage} = useContext(MapContext)
+  const {bounds, size, page, setPage, setView, setColor} = useContext(MapContext)
 
   const handleChange = (value) => {
     setPage(value)
@@ -55,6 +55,32 @@ export default function Dashboard() {
           </Stack>
         </TableContainer>
 
+      </Grid>
+      <Grid item>
+        <br/>
+      </Grid>
+      <Grid item>
+        <Typography sx={{
+          fontSize: '4vh'
+          }}>
+          Polygons
+        </Typography> 
+      </Grid>
+      <Grid item>
+        <Stack sx={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          <Button sx={{backgroundColor: '#034917', color: '#ffffff'}} onClick={()=>{setView('daryl'); setColor('#034917')}}>
+            Daryl
+          </Button>
+          <Button sx={{backgroundColor: '#a52ff0', color: '#ffffff'}} onClick={()=>{setView('jason'); setColor('#a52ff0')}}>
+            Jason
+          </Button>
+          <Button sx={{backgroundColor: '#e553af', color: '#ffffff'}} onClick={()=>{setView('kent'); setColor('#e553af')}}>
+            Kent
+          </Button>
+          <Button sx={{backgroundColor: '#1fffb0', color: '#ffffff'}} onClick={()=>{setView('mea'); setColor('#1fffb0')}}>
+            Mea
+          </Button>
+        </Stack>
       </Grid>
     </Grid>
   )
